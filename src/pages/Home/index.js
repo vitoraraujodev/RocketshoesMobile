@@ -13,8 +13,6 @@ import {
   SubmitButtonText,
 } from './styles';
 
-import Header from '../../components/Header';
-
 import { products } from '../../../api';
 
 export default function Home() {
@@ -43,7 +41,3 @@ export default function Home() {
     </Container>
   );
 }
-
-Home.navigationOptions = {
-  header: <Header />,
-};
