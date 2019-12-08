@@ -31,7 +31,7 @@ export default function Home() {
             <SubmitButton>
               <SubmitButtonAmount>
                 <Icon name="add-shopping-cart" color="white" size={24} />
-                <SubmitButtonAmountText>0</SubmitButtonAmountText>
+                <SubmitButtonAmountText value={1} />
               </SubmitButtonAmount>
               <SubmitButtonText>ADICIONAR</SubmitButtonText>
             </SubmitButton>
