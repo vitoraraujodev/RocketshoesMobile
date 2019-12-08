@@ -1,16 +1,17 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 
-// import { Container } from './styles';
+import { Container, HelloWorld } from './styles';
+
+import Header from '../../components/Header';
 
 export default function Home() {
   return (
-    <View>
-      <Text>Hello World!</Text>
-    </View>
+    <Container>
+      <HelloWorld>Hello World!</HelloWorld>
+    </Container>
   );
 }
 
 Home.navigationOptions = {
-  title: 'Home',
+  header: <Header />,
 };
