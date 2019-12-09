@@ -30,12 +30,14 @@ module.exports = {
     'react/state-in-constructor': 'off',
     'react/static-property-placement': 'off',
     'react/sort-comp': 'off',
+    'no-param-reassign': 'off',
     'react/jsx-filename-extension': [
       'warn',
       {
         extensions: ['.jsx', '.js']
       }
     ],
-    'import/prefer-default-export': 'off'
+    'import/prefer-default-export': 'off',
+    'no-console': ["error", { allow: ["tron"]}]
   },
 };

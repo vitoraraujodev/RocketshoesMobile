@@ -29,7 +29,7 @@ import {
   EmptyText,
 } from './styles';
 
-function Cart({ products }) {
+function Cart({ products, total }) {
   return (
     <Container>
       {products.length ? (
@@ -61,7 +61,7 @@ function Cart({ products }) {
                         name="remove-circle-outline"
                       />
                     </ProductAmountIcon>
-                    <ProductAmountInput>1</ProductAmountInput>
+                    <ProductAmountInput value={product.amount.toString()} />
                     <ProductAmountIcon>
                       <Icon
                         size={30}
@@ -77,7 +77,7 @@ function Cart({ products }) {
 
             <TotalPriceContainer>
               <TotalText>TOTAL</TotalText>
-              <TotalPrice>R$ 179.90</TotalPrice>
+              <TotalPrice>{total}</TotalPrice>
             </TotalPriceContainer>
 
             <SubmitButton>
@@ -98,9 +98,14 @@ function Cart({ products }) {
 const mapStateToProps = state => ({
   products: state.cart.map(product => ({
     ...product,
-    subtotal: formatPrice(product.price),
+    subtotal: formatPrice(product.price * product.amount),
     formattedPrice: formatPrice(product.price),
   })),
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ),
 });
 
 export default connect(mapStateToProps, null)(Cart);
