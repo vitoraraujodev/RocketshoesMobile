@@ -1,10 +1,14 @@
 import React from 'react';
-
+import { FlatList, View } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import formatPrice from '../../util/format';
 
 import {
   Container,
   Product,
+  ProductList,
   ProductContainer,
   ProductInfo,
   ProductImage,
@@ -21,79 +25,82 @@ import {
   TotalPrice,
   SubmitButton,
   SubmitButtonText,
+  EmptyContainer,
+  EmptyText,
 } from './styles';
 
-export default function Cart() {
+function Cart({ products }) {
   return (
     <Container>
-      <Product>
-        <ProductContainer>
-          <ProductImage
-            source={{
-              uri:
-                'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-            }}
-          />
-          <ProductInfo>
-            <ProductTitle>Tênis de Caminhada Leve Confortável</ProductTitle>
-            <ProductPrice>R$ 179.90</ProductPrice>
-          </ProductInfo>
-          <ProductRemove>
-            <Icon size={30} color="#7159c1" name="delete-forever" />
-          </ProductRemove>
-        </ProductContainer>
+      {products.length ? (
+        <>
+          <ProductList>
+            {products.map(product => (
+              <Product key={product.id}>
+                <ProductContainer>
+                  <ProductImage
+                    source={{
+                      uri: product.image,
+                    }}
+                  />
+                  <ProductInfo>
+                    <ProductTitle>{product.title}</ProductTitle>
+                    <ProductPrice>{product.formattedPrice}</ProductPrice>
+                  </ProductInfo>
+                  <ProductRemove>
+                    <Icon size={30} color="#7159c1" name="delete-forever" />
+                  </ProductRemove>
+                </ProductContainer>
 
-        <ProductAmountContainer>
-          <ProductAmountPanel>
-            <ProductAmountIcon>
-              <Icon size={30} color="#7159c1" name="remove-circle-outline" />
-            </ProductAmountIcon>
-            <ProductAmountInput>1</ProductAmountInput>
-            <ProductAmountIcon>
-              <Icon size={30} color="#7159c1" name="add-circle-outline" />
-            </ProductAmountIcon>
-          </ProductAmountPanel>
-          <ProductAmountPrice>R$ 179.90</ProductAmountPrice>
-        </ProductAmountContainer>
-      </Product>
-      <Product>
-        <ProductContainer>
-          <ProductImage
-            source={{
-              uri:
-                'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-            }}
-          />
-          <ProductInfo>
-            <ProductTitle>Tênis de Caminhada Leve Confortável</ProductTitle>
-            <ProductPrice>R$ 179.90</ProductPrice>
-          </ProductInfo>
-          <ProductRemove>
-            <Icon size={30} color="#7159c1" name="delete-forever" />
-          </ProductRemove>
-        </ProductContainer>
+                <ProductAmountContainer>
+                  <ProductAmountPanel>
+                    <ProductAmountIcon>
+                      <Icon
+                        size={30}
+                        color="#7159c1"
+                        name="remove-circle-outline"
+                      />
+                    </ProductAmountIcon>
+                    <ProductAmountInput>1</ProductAmountInput>
+                    <ProductAmountIcon>
+                      <Icon
+                        size={30}
+                        color="#7159c1"
+                        name="add-circle-outline"
+                      />
+                    </ProductAmountIcon>
+                  </ProductAmountPanel>
+                  <ProductAmountPrice>{product.subtotal}</ProductAmountPrice>
+                </ProductAmountContainer>
+              </Product>
+            ))}
 
-        <ProductAmountContainer>
-          <ProductAmountPanel>
-            <ProductAmountIcon>
-              <Icon size={30} color="#7159c1" name="remove-circle-outline" />
-            </ProductAmountIcon>
-            <ProductAmountInput value="1" />
-            <ProductAmountIcon>
-              <Icon size={30} color="#7159c1" name="add-circle-outline" />
-            </ProductAmountIcon>
-          </ProductAmountPanel>
-          <ProductAmountPrice>R$ 179.90</ProductAmountPrice>
-        </ProductAmountContainer>
-      </Product>
-      <TotalPriceContainer>
-        <TotalText>TOTAL</TotalText>
-        <TotalPrice>R$ 179.90</TotalPrice>
-      </TotalPriceContainer>
+            <TotalPriceContainer>
+              <TotalText>TOTAL</TotalText>
+              <TotalPrice>R$ 179.90</TotalPrice>
+            </TotalPriceContainer>
 
-      <SubmitButton>
-        <SubmitButtonText>FINALIZAR PEDIDO</SubmitButtonText>
-      </SubmitButton>
+            <SubmitButton>
+              <SubmitButtonText>FINALIZAR PEDIDO</SubmitButtonText>
+            </SubmitButton>
+          </ProductList>
+        </>
+      ) : (
+        <EmptyContainer>
+          <Icon name="remove-shopping-cart" size={64} color="#ccc" />
+          <EmptyText>Seu carrinho está vazio...</EmptyText>
+        </EmptyContainer>
+      )}
     </Container>
   );
 }
+
+const mapStateToProps = state => ({
+  products: state.cart.map(product => ({
+    ...product,
+    subtotal: formatPrice(product.price),
+    formattedPrice: formatPrice(product.price),
+  })),
+});
+
+export default connect(mapStateToProps, null)(Cart);

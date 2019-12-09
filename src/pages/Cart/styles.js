@@ -8,6 +8,8 @@ export const Container = styled.View`
   border-radius: 4px;
 `;
 
+export const ProductList = styled.ScrollView``;
+
 export const Product = styled.View`
   background: #fff;
   border-radius: 4px;
@@ -98,4 +100,19 @@ export const SubmitButtonText = styled.Text`
   text-align: center;
   font-size: 16px;
   font-weight: bold;
+`;
+
+export const EmptyContainer = styled.View`
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  padding: 16px;
+  margin: 16px;
+`;
+export const EmptyText = styled.Text`
+  margin-top: 16px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #aaa;
 `;

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Container, Logo, Basket, ItemCount } from './styles';
 
-export default class Header extends Component {
+class Header extends Component {
   handleBasketNavigate = () => {
     const { navigation } = this.props;
     navigation.navigate('Cart');
@@ -16,6 +17,8 @@ export default class Header extends Component {
   };
 
   render() {
+    const { cartSize } = this.props;
+    console.tron.log(cartSize);
     return (
       <Container>
         <TouchableOpacity onPress={() => this.handleLogoNavigate()}>
@@ -23,9 +26,16 @@ export default class Header extends Component {
         </TouchableOpacity>
         <Basket onPress={() => this.handleBasketNavigate()}>
           <Icon name="shopping-basket" color="white" size={24} />
-          <ItemCount>{0}</ItemCount>
+          <ItemCount>{cartSize || 0}</ItemCount>
         </Basket>
       </Container>
     );
   }
 }
+
+export default connect(
+  state => ({
+    cartSize: state.cart.length,
+  }),
+  null
+)(Header);
