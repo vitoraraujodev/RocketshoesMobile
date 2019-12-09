@@ -78,7 +78,7 @@ export default function Cart() {
             <ProductAmountIcon>
               <Icon size={30} color="#7159c1" name="remove-circle-outline" />
             </ProductAmountIcon>
-            <ProductAmountInput>1</ProductAmountInput>
+            <ProductAmountInput value="1" />
             <ProductAmountIcon>
               <Icon size={30} color="#7159c1" name="add-circle-outline" />
             </ProductAmountIcon>

@@ -13,7 +13,9 @@ import {
   SubmitButtonText,
 } from './styles';
 
-import { products } from '../../../api';
+import api from '../../services/api';
+
+// import { products } from '../../../api';
 
 import formatPrice from '../../util/format';
 
@@ -22,8 +24,10 @@ export default class Home extends Component {
     products: [],
   };
 
-  componentDidMount() {
-    const formattedProducts = products.map(product => ({
+  async componentDidMount() {
+    const response = await api.get('products');
+
+    const formattedProducts = response.data.map(product => ({
       ...product,
       formattedPrice: formatPrice(product.price),
     }));
@@ -31,12 +35,12 @@ export default class Home extends Component {
   }
 
   render() {
-    const formattedProducts = this.state.products;
+    const { products } = this.state;
     return (
       <Container>
         <FlatList
           vertical
-          data={formattedProducts}
+          data={products}
           contentContainerStyle={{ alignItems: 'center' }}
           keyExtractor={product => product.id.toString()}
           renderItem={({ item }) => (
@@ -47,7 +51,7 @@ export default class Home extends Component {
               <SubmitButton>
                 <SubmitButtonAmount>
                   <Icon name="add-shopping-cart" color="white" size={24} />
-                  <SubmitButtonAmountText value={1} />
+                  <SubmitButtonAmountText>0</SubmitButtonAmountText>
                 </SubmitButtonAmount>
                 <SubmitButtonText>ADICIONAR</SubmitButtonText>
               </SubmitButton>

@@ -54,7 +54,7 @@ export const ProductAmountPanel = styled.View`
   padding: 4px;
 `;
 export const ProductAmountInput = styled.TextInput.attrs({
-  readonly: true,
+  editable: false,
 })`
   background: #fff;
   margin: 4px;
