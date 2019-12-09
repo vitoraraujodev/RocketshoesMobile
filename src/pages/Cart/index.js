@@ -29,7 +29,7 @@ import {
   EmptyText,
 } from './styles';
 
-function Cart({ products, total }) {
+function Cart({ products, total, dispatch }) {
   return (
     <Container>
       {products.length ? (
@@ -47,7 +47,11 @@ function Cart({ products, total }) {
                     <ProductTitle>{product.title}</ProductTitle>
                     <ProductPrice>{product.formattedPrice}</ProductPrice>
                   </ProductInfo>
-                  <ProductRemove>
+                  <ProductRemove
+                    onPress={() =>
+                      dispatch({ type: 'REMOVE_FROM_CART', id: product.id })
+                    }
+                  >
                     <Icon size={30} color="#7159c1" name="delete-forever" />
                   </ProductRemove>
                 </ProductContainer>
