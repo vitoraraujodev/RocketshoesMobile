@@ -32,7 +32,15 @@ import {
   EmptyText,
 } from './styles';
 
-function Cart({ products, total, removeFromCart }) {
+function Cart({ products, total, removeFromCart, updateAmount }) {
+  function increment(product) {
+    updateAmount(product.id, product.amount + 1);
+  }
+
+  function decrement(product) {
+    updateAmount(product.id, product.amount - 1);
+  }
+
   return (
     <Container>
       {products.length ? (
@@ -57,7 +65,7 @@ function Cart({ products, total, removeFromCart }) {
 
                 <ProductAmountContainer>
                   <ProductAmountPanel>
-                    <ProductAmountIcon>
+                    <ProductAmountIcon onPress={() => decrement(product)}>
                       <Icon
                         size={30}
                         color="#7159c1"
@@ -65,7 +73,7 @@ function Cart({ products, total, removeFromCart }) {
                       />
                     </ProductAmountIcon>
                     <ProductAmountInput value={product.amount.toString()} />
-                    <ProductAmountIcon>
+                    <ProductAmountIcon onPress={() => increment(product)}>
                       <Icon
                         size={30}
                         color="#7159c1"
