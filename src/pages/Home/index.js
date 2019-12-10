@@ -19,7 +19,7 @@ import {
 
 import api from '../../services/api';
 
-// import { products } from '../../../api';
+import * as localApi from '../../../api';
 
 import formatPrice from '../../util/format';
 
@@ -29,13 +29,22 @@ class Home extends Component {
   };
 
   async componentDidMount() {
-    const response = await api.get('products');
-
-    const formattedProducts = response.data.map(product => ({
-      ...product,
-      formattedPrice: formatPrice(product.price),
-    }));
-    this.setState({ products: formattedProducts });
+    console.tron.log(localApi);
+    try {
+      const response = await api.get('products');
+      const formattedProducts = response.data.map(product => ({
+        ...product,
+        formattedPrice: formatPrice(product.price),
+      }));
+      this.setState({ products: formattedProducts });
+    } catch (e) {
+      console.tron.log(e, 'Não deu pra fazer o GET');
+      const formattedProducts = localApi.products.map(product => ({
+        ...product,
+        formattedPrice: formatPrice(product.price),
+      }));
+      this.setState({ products: formattedProducts });
+    }
   }
 
   handleAddProduct = product => {
@@ -61,7 +70,7 @@ class Home extends Component {
               <SubmitButton onPress={() => this.handleAddProduct(item)}>
                 <SubmitButtonAmount>
                   <Icon name="add-shopping-cart" color="white" size={24} />
-                  <SubmitButtonAmountText>0</SubmitButtonAmountText>
+                  <SubmitButtonAmountText>{}</SubmitButtonAmountText>
                 </SubmitButtonAmount>
                 <SubmitButtonText>ADICIONAR</SubmitButtonText>
               </SubmitButton>

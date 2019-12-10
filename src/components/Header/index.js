@@ -18,7 +18,6 @@ class Header extends Component {
 
   render() {
     const { cartSize } = this.props;
-    console.tron.log(cartSize);
     return (
       <Container>
         <TouchableOpacity onPress={() => this.handleLogoNavigate()}>
