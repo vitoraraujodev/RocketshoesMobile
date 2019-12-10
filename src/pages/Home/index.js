@@ -55,6 +55,8 @@ class Home extends Component {
 
   render() {
     const { products } = this.state;
+    const { amount } = this.props;
+
     return (
       <Container>
         <FlatList
@@ -70,7 +72,9 @@ class Home extends Component {
               <SubmitButton onPress={() => this.handleAddProduct(item)}>
                 <SubmitButtonAmount>
                   <Icon name="add-shopping-cart" color="white" size={24} />
-                  <SubmitButtonAmountText>{}</SubmitButtonAmountText>
+                  <SubmitButtonAmountText>
+                    {amount[item.id] || 0}
+                  </SubmitButtonAmountText>
                 </SubmitButtonAmount>
                 <SubmitButtonText>ADICIONAR</SubmitButtonText>
               </SubmitButton>
@@ -82,7 +86,14 @@ class Home extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    amount[product.id] = product.amount;
+    return amount;
+  }, {}),
+});
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
