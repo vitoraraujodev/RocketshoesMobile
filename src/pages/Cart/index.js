@@ -32,13 +32,13 @@ import {
   EmptyText,
 } from './styles';
 
-function Cart({ products, total, removeFromCart, updateAmount }) {
+function Cart({ products, total, removeFromCart, updateAmountRequest }) {
   function increment(product) {
-    updateAmount(product.id, product.amount + 1);
+    updateAmountRequest(product.id, product.amount + 1);
   }
 
   function decrement(product) {
-    updateAmount(product.id, product.amount - 1);
+    updateAmountRequest(product.id, product.amount - 1);
   }
 
   return (
