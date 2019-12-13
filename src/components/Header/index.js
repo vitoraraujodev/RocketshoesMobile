@@ -1,40 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Container, Logo, Basket, ItemCount } from './styles';
 
-class Header extends Component {
-  handleBasketNavigate = () => {
-    const { navigation } = this.props;
+export default function Header({ navigation }) {
+  const cartSize = useSelector(state => state.cart.length);
+
+  function handleBasketNavigate() {
     navigation.navigate('Cart');
-  };
-
-  handleLogoNavigate = () => {
-    const { navigation } = this.props;
-    navigation.navigate('Home');
-  };
-
-  render() {
-    const { cartSize } = this.props;
-    return (
-      <Container>
-        <TouchableOpacity onPress={() => this.handleLogoNavigate()}>
-          <Logo />
-        </TouchableOpacity>
-        <Basket onPress={() => this.handleBasketNavigate()}>
-          <Icon name="shopping-basket" color="white" size={24} />
-          <ItemCount>{cartSize || 0}</ItemCount>
-        </Basket>
-      </Container>
-    );
   }
-}
 
-export default connect(
-  state => ({
-    cartSize: state.cart.length,
-  }),
-  null
-)(Header);
+  function handleLogoNavigate() {
+    navigation.navigate('Home');
+  }
+
+  return (
+    <Container>
+      <TouchableOpacity onPress={() => handleLogoNavigate()}>
+        <Logo />
+      </TouchableOpacity>
+      <Basket onPress={() => handleBasketNavigate()}>
+        <Icon name="shopping-basket" color="white" size={24} />
+        <ItemCount>{cartSize || 0}</ItemCount>
+      </Basket>
+    </Container>
+  );
+}
